@@ -25,13 +25,12 @@ Route::get("/v1/cities/{state}", [CityController::class, "index"])
 
 Route::any('{path}', function () {
     return response()->json([
-        'message' => 'Route not found'
+        "error" => 'Route not found'
     ], 404);
 })->where('path', '.*');
 
-
 Route::any('/', function () {
     return response()->json([
-        'message' => 'Route not found'
+        "error" => 'Route not found'
     ], 404);
 })->where('path', '.*');

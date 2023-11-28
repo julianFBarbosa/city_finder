@@ -23,14 +23,9 @@ class CityRepository implements CityRepositoryInterface
 
     private function getCityList($state)
     {
-        if ($state == null) {
-            return null;
-        }
-
         $request = Http::get(env("BRASIL_API_URL") . $state);
 
         if ($request->successful()) {
-
             return [
                 "list" => $request->json(),
                 "source" => "BRASIL_API"
@@ -46,7 +41,9 @@ class CityRepository implements CityRepositoryInterface
             ];
         }
 
-        return null;
+        return [
+            "error" => "Não foi possível entrar em contato com as APIs de busca."
+        ];
     }
 
     public function getStateList()

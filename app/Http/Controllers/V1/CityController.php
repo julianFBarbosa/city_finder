@@ -27,7 +27,6 @@ class CityController extends Controller
         $this->cityService = $cityService;
     }
 
-
     /**
      * @OA\Get(
      *     path="/v1/api/cities/{state}",
@@ -53,6 +52,11 @@ class CityController extends Controller
         }
 
         $cities = $this->cityService->getCityListByState($state);
+
+        if (array_key_exists("error", $cities)) {
+            return response()->json(["error" => $cities["error"]], 500);
+        }
+
         return V1CityResource::normalizeData($cities);
     }
 }
