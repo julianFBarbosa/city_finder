@@ -25,10 +25,6 @@ class CityService
 
     public function validateState($state)
     {
-        if (is_null($state)) {
-            return null;
-        }
-
         $stateList = $this->cityRepository->getStateList();
         $isStateValid = V1CityResource::validateState($stateList, strtoupper($state));
 
