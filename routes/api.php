@@ -22,3 +22,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get("/cities/{state}", [CityController::class, "index"])
     ->middleware(VerifyApiIntegrity::class);
+
+Route::any('{path}', function () {
+    return response()->json([
+        'message' => 'Route not found'
+    ], 404);
+})->where('path', '.*');
+
+
+Route::any('/', function () {
+    return response()->json([
+        'message' => 'Route not found'
+    ], 404);
+})->where('path', '.*');
