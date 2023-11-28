@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\CityResource;
-use App\Http\Requests\CityRequest;
 use App\Services\CityService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class CityController extends Controller
 {

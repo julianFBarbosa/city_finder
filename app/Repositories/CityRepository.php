@@ -5,7 +5,6 @@ namespace App\Repositories;
 use App\Models\City;
 use App\Repositories\Contracts\CityRepositoryInterface;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Http\Client\ConnectionException;
 
 class CityRepository implements CityRepositoryInterface
 {
@@ -31,7 +30,7 @@ class CityRepository implements CityRepositoryInterface
         $request = Http::get(env("BRASIL_API_URL") . $state);
 
         if ($request->successful()) {
-            
+
             return [
                 "list" => $request->json(),
                 "source" => "BRASIL_API"
