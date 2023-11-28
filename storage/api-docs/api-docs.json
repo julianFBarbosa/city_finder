@@ -1,0 +1,38 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Cities API",
+        "description": "Listagem de cidades dentro de um Estado válido",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/v1/api/cities/{state}": {
+            "get": {
+                "summary": "Query a list of cities within a valid state",
+                "operationId": "994c97414bc61c38c84317a220f069e3",
+                "parameters": [
+                    {
+                        "name": "state",
+                        "in": "path",
+                        "description": "A Valid Acronym of a brazilian state",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of cities within a state"
+                    },
+                    "400": {
+                        "description": "State not found"
+                    },
+                    "500": {
+                        "description": "internal error"
+                    }
+                }
+            }
+        }
+    }
+}
