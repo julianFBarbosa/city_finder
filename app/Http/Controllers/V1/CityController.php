@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Resources\V1\CityResource as V1CityResource;
 use App\Services\CityService;
 use App\Services\V1\CityService as V1CityService;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use OpenApi\Annotations as OA;
 
 /**
@@ -20,6 +22,7 @@ use OpenApi\Annotations as OA;
 class CityController extends Controller
 {
     protected $cityService;
+    protected $perPage = 5;
 
     public function __construct(V1CityService $cityService)
     {
@@ -45,6 +48,7 @@ class CityController extends Controller
      */
     public function index(Request $request, $state)
     {
+        $page = $request->get("page");
         $isStateValid = $this->cityService->validateState($state);
 
         if (is_null($isStateValid)) {
@@ -57,6 +61,21 @@ class CityController extends Controller
             return response()->json(["error" => $cities["error"]], 500);
         }
 
-        return V1CityResource::normalizeData($cities);
+        if (is_null($page)) {
+            return V1CityResource::normalizeData($cities);
+        }
+
+        $currentPage = $page;
+        $collection = new Collection($cities["list"]);
+
+        $paginatedData = new LengthAwarePaginator(
+            $collection->forPage($currentPage, $this->perPage),
+            $collection->count(),
+            $this->perPage,
+            $currentPage,
+            ["path" => url("/cities")],
+        );
+
+        return response()->json($paginatedData)->setEncodingOptions(JSON_NUMERIC_CHECK);
     }
 }
