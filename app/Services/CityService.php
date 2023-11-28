@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\CityResource;
 use App\Repositories\Contracts\CityRepositoryInterface;
 
 class CityService
@@ -20,5 +21,17 @@ class CityService
     public function getCityListByState($state)
     {
         return $this->cityRepository->getCityListByState($state);
+    }
+
+    public function validateState($state)
+    {
+        if(is_null($state)) {
+            return null;
+        }
+
+        $stateList = $this->cityRepository->getStateList();
+        $isStateValid =  CityResource::validateState($stateList, strtoupper($state));
+
+        return $isStateValid;
     }
 }
