@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\CityController;
+use App\Http\Controllers\V1\CityController;
 use App\Http\Middleware\VerifyApiIntegrity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,7 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get("/cities/{state}", [CityController::class, "index"])
+Route::get("/v1/cities/{state}", [CityController::class, "index"])
     ->middleware(VerifyApiIntegrity::class);
 
 Route::any('{path}', function () {

@@ -18,7 +18,7 @@ class VerifyApiIntegrity
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $ibgeApi = Http::get(env("BRASIL_API_URL"));
+        $ibgeApi = Http::get(env("BRASIL_UF_API_URL"));
 
         if ($ibgeApi->successful()) {
             return $next($request);

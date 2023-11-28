@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\V1;
 
-use App\Http\Resources\CityResource;
+use App\Http\Resources\V1\CityResource as V1CityResource;
 use App\Repositories\Contracts\CityRepositoryInterface;
 
 class CityService
@@ -17,7 +17,7 @@ class CityService
     /**
      * get all cities within a state
      * @return array
-    */
+     */
     public function getCityListByState($state)
     {
         return $this->cityRepository->getCityListByState($state);
@@ -25,12 +25,12 @@ class CityService
 
     public function validateState($state)
     {
-        if(is_null($state)) {
+        if (is_null($state)) {
             return null;
         }
 
         $stateList = $this->cityRepository->getStateList();
-        $isStateValid =  CityResource::validateState($stateList, strtoupper($state));
+        $isStateValid = V1CityResource::validateState($stateList, strtoupper($state));
 
         return $isStateValid;
     }
