@@ -32,16 +32,16 @@ class CityController extends Controller
     /**
      * @OA\Get(
      *     path="/api/v1/cities/{state}",
-     *     summary="Query a list of cities within a valid state",
+     *     summary="Query a City list within a valid State",
      *     @OA\Parameter(
      *         name="state",
      *         in="path",
-     *         description="A Valid Acronym of a brazilian state",
+     *         description="A Valid Acronym of a Brazilian Btate",
      *         @OA\Schema(type="string"),
      *         required=true,
      *     ),
-     *     @OA\Response(response="200", description="List of cities within a state"),
-     *     @OA\Response(response="400", description="State not found"),
+     *     @OA\Response(response="200", description="City List within a state"),
+     *     @OA\Response(response="404", description="State not found"),
      *     @OA\Response(response="500", description="internal error")
      * )
      */
@@ -77,6 +77,14 @@ class CityController extends Controller
         return response()->json($paginatedData)->setEncodingOptions(JSON_NUMERIC_CHECK);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/v1/states",
+     *     summary="Query a Brazilian State list",
+     *     @OA\Response(response="200", description="Brazilian State list"),
+     *     @OA\Response(response="500", description="internal error")
+     * )
+     */
     public function states(Request $request) {
         $response = $this->cityService->getStateList();
 

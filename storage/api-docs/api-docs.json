@@ -8,13 +8,13 @@
     "paths": {
         "/api/v1/cities/{state}": {
             "get": {
-                "summary": "Query a list of cities within a valid state",
+                "summary": "Query a City list within a valid State",
                 "operationId": "0ac5aa74c073063637f80b6450fafc88",
                 "parameters": [
                     {
                         "name": "state",
                         "in": "path",
-                        "description": "A Valid Acronym of a brazilian state",
+                        "description": "A Valid Acronym of a Brazilian Btate",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -23,10 +23,24 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of cities within a state"
+                        "description": "City List within a state"
                     },
-                    "400": {
+                    "404": {
                         "description": "State not found"
+                    },
+                    "500": {
+                        "description": "internal error"
+                    }
+                }
+            }
+        },
+        "/api/v1/states": {
+            "get": {
+                "summary": "Query a Brazilian State list",
+                "operationId": "dc0770bfa33a3a2575d60950d88189e2",
+                "responses": {
+                    "200": {
+                        "description": "Brazilian State list"
                     },
                     "500": {
                         "description": "internal error"
