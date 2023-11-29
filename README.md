@@ -35,7 +35,7 @@ php artisan serve
 
 O projeto conta com três endpoints:
 
-> Caso for rodar o projeto localmente, O valor de `$baseUrl` provavelmente será http://localhost:80/api
+> Caso for rodar o projeto através do Laravel Sail, O valor de `$baseUrl` provavelmente será http://localhost:80/api
 
 > `$state` deve ser a `sigla` do Estado, não o nome.
 > `$page` deve ser um inteiro que simboliza a página atual, o query parameter `page` é opcional.
