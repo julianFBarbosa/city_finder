@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Response;
 class CityRepository implements CityRepositoryInterface
 {
     protected $entity;
-    protected $time = 20;
+    protected $time = 300;
 
     public function __construct(City $city)
     {
