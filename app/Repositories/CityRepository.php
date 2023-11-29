@@ -4,11 +4,14 @@ namespace App\Repositories;
 
 use App\Models\City;
 use App\Repositories\Contracts\CityRepositoryInterface;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Response;
 
 class CityRepository implements CityRepositoryInterface
 {
     protected $entity;
+    protected $time = 20;
 
     public function __construct(City $city)
     {
@@ -23,22 +26,24 @@ class CityRepository implements CityRepositoryInterface
 
     private function getCityList($state)
     {
+        if (Cache::has("cities-" . $state)) {
+            return Cache::get("cities-" . $state);
+        }
+
         $request = Http::get(env("BRASIL_API_URL") . $state);
 
-        if ($request->successful()) {
-            return [
-                "list" => $request->json(),
-                "source" => "BRASIL_API"
-            ];
-        }
+        $this->storeCityListData($request->successful(), $request->json(), "BRASIL_API", $state);
 
         $request = Http::get(env("IBGE_API_URL") . $state . "/municipios");
 
         if ($request->successful()) {
-            return [
+            $data = [
                 "list" => $request->json(),
-                "source" => "IBGE_API"
+                "source" => "BRASIL_API"
             ];
+
+            Cache::add('cities-' . $state, $data, $this->time);
+            return $data;
         }
 
         return [
@@ -48,11 +53,16 @@ class CityRepository implements CityRepositoryInterface
 
     public function getStateList()
     {
+        if (Cache::has("states")) {
+            return Cache::get("states");
+        }
+
         $request = Http::get(env("BRASIL_UF_API_URL"));
 
         if ($request->successful()) {
             return $request->json();
         }
+        $this->storeStateData($request->successful(), $request->json());
 
         $request = Http::get(env("IBGE_API_URL"));
 
@@ -61,5 +71,25 @@ class CityRepository implements CityRepositoryInterface
         }
 
         return null;
+    }
+
+    private function storeStateData($isSuccessful, $list)
+    {
+        if ($isSuccessful) {
+            Cache::add('state-list', $list, $this->time);
+            return $list;
+        }
+    }
+
+    private function storeCityListData($isSuccessful, $list, $source, $state)
+    {
+        if ($isSuccessful) {
+            $data = [
+                "list" => $list,
+                "source" => $source
+            ];
+            Cache::add('cities-' . $state, $data, $this->time);
+            return $data;
+        }
     }
 }

@@ -21,7 +21,7 @@ use OpenApi\Annotations as OA;
 class CityController extends Controller
 {
     protected $cityService;
-    protected $perPage = 5;
+    protected $perPage = 15;
 
     public function __construct(V1CityService $cityService)
     {
