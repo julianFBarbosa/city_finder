@@ -46,8 +46,6 @@ O projeto conta com três endpoints:
 
 ## Deployment
 
-Realizei o deployment da aplicação na plataforma [Railway](https://railway.app/) e você pode acessar através do link abaixo
+Realizei o deployment da aplicação na plataforma [Fly.io](https://fly.io/) e você pode acessar através do link abaixo
 
-https://cityfinder-production.up.railway.app/api/v1/cities/mg?page=1
-
-Devido a algumas limitações da plataforma, não é possível acessar o endpoint de documentação.
+https://busca-cidades.fly.dev/api/documentation
