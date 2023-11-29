@@ -43,3 +43,11 @@ O projeto conta com três endpoints:
 - `{$baseUrl}`/v1/cities/`{$state}`?page=`{$page}`
 - `{$baseUrl}`/v1/states (primariamente para fins de testes)
 - `{$baseUrl}`/documentation
+
+## Deployment
+
+Realizei o deployment da aplicação na plataforma [Railway](https://railway.app/) e você pode acessar através do link abaixo
+
+https://cityfinder-production.up.railway.app/api/v1/cities/mg?page=1
+
+Devido a algumas limitações da plataforma, não é possível acessar o endpoint de documentação.
