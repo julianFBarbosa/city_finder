@@ -1,66 +1,71 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<p align="center"><a href="https://idez.com.br/" target="_blank"><img src="./storage/images/thumbnail.png" width="400" alt="Idez"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## City Finder
 
-## About Laravel
+O projeto lista todas as cidades dentro de um estado brasileiro
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Como rodar o projeto?
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 1. Sail
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+É altamente recomendado que você tenhas as ferramentas `docker` e `docker-compose` para executar o projeto, assim é possível utilizar a ferramenta [Sail](https://laravel.com/docs/10.x/sail#introduction) (que nada mais é do que um arquivo `docker-compose.yml` e um script `sail` que é armazenado na raiz do projeto) do próprio Laravel.
 
-## Learning Laravel
+O comando Sail nos disponibiliza uma CLI com diversos métodos convenientes pra interagir com os contêiners Docker definidos pelo arquivo `docker-compose.yml`, além de prover um acesso fácil ao `artisan`, `composer` e muito mais! O Sail atualmente está disponível para as plataformas macOS, Linux e Windows (através do WSL2).
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+A instalação para cada sistema operacional varia, portanto abaixo está um link da própria documentação do Laravel com mais instruções para a instalação das dependências do projeto.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+https://laravel.com/docs/10.x/installation#docker-installation-using-sail
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 2. Via Composer (Não recomendado)
 
-## Laravel Sponsors
+(Ainda) Não foram realizadas tratativas de CORS para as requisções, logo, muito provavelmente ocasionará em erros caso rode o projeto via composer.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Pré-requisitos:
 
-### Premium Partners
+- Certifique-se de ter o PHP na versão 8 ou mais recente instalado em sua máquina.
+- Instale o [Composer](https://getcomposer.org/download/)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+No terminal, navegue para o diretório do projeto e digite:
 
-## Contributing
+```bash
+php artisan serve
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Endpoints disponíveis
 
-## Code of Conduct
+O projeto conta com três endpoints:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+> Caso for rodar o projeto localmente, O valor de `$baseUrl` provavelmente será http://localhost:80/api
 
-## Security Vulnerabilities
+> `$state` deve ser a `sigla` do Estado, não o nome.
+> `$page` deve ser um inteiro que simboliza a página atual, o `query parameter` é um parâmetro opcional.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- `{$baseUrl}`/v1/cities/`{$state}`?page=`{$page}`
+- `{$baseUrl}`/v1/states (primariamente para fins de testes)
+- `{$baseUrl}`/documentation
 
-## License
+## Checklist
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- [x] Criar rota para pesquisar e listar municípios de uma UF
+- [x] Resposta da requisição deve conter uma lista de municípios com os seguintes campos:
+  - [x] name ⇒ nome do município
+  - [x] ibge_code ⇒ código IBGE deste município
+- [x] Deve ser utilizada como providers as seguintes APIs:
+  - IBGE - [https://servicodados.ibge.gov.br/api/v1/localidades/estados/rs/municipios](https://servicodados.ibge.gov.br/api/v1/localidades/estados/rs/municipios)
+  - Brasil API - [https://brasilapi.com.br/api/ibge/municipios/v1/RS](https://brasilapi.com.br/api/ibge/municipios/v1/RS)
+- [x] O provider usado deve ser definido via variável de ambiente
+- [x] Deve conter testes
+  - [ ] unitários
+  - [x] integração (poucos, mas melhor do que nada)
+
+**Bônus**:
+
+- [x] Uso de cache
+- [x] Tratamento de excessões (após finalizar o projeto percebi que algumas tratativas eram falhas)
+- [x] Documentação do projeto
+- [ ] Github Actions.
+- [x] Commits atômicos e descritivos.
+- [x] Paginação dos resultados.
+- [ ] Criação de SPA consumindo o endpoint criado
+- [ ] Disponibilização do projeto em algum ambiente cloud.
+- [x] Conteinerização
