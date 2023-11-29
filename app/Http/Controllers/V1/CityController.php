@@ -5,7 +5,6 @@ namespace App\Http\Controllers\V1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\V1\CityResource as V1CityResource;
-use App\Services\CityService;
 use App\Services\V1\CityService as V1CityService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -65,14 +64,12 @@ class CityController extends Controller
             return V1CityResource::normalizeData($cities);
         }
 
-        $currentPage = $page;
         $collection = new Collection($cities["list"]);
-
         $paginatedData = new LengthAwarePaginator(
-            $collection->forPage($currentPage, $this->perPage),
+            $collection->forPage($page, $this->perPage),
             $collection->count(),
             $this->perPage,
-            $currentPage,
+            $page,
             ["path" => url("/cities")],
         );
 
