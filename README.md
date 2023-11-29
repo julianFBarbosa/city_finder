@@ -1,4 +1,4 @@
-<p align="center"><a href="https://idez.com.br/" target="_blank"><img src="./storage/images/thumbnail.png" width="400" alt="Idez"></a></p>
+<p align="center"><a href="https://idez.com.br/" target="_blank"><img src="./storage/images/thumbnail.png" width="100%" alt="Idez"></a></p>
 
 ## City Finder
 
