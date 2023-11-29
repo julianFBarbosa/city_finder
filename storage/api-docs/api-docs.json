@@ -6,10 +6,10 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/v1/api/cities/{state}": {
+        "/api/v1/cities/{state}": {
             "get": {
                 "summary": "Query a list of cities within a valid state",
-                "operationId": "994c97414bc61c38c84317a220f069e3",
+                "operationId": "0ac5aa74c073063637f80b6450fafc88",
                 "parameters": [
                     {
                         "name": "state",

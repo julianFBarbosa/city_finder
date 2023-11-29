@@ -31,7 +31,7 @@ class CityController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/v1/api/cities/{state}",
+     *     path="/api/v1/cities/{state}",
      *     summary="Query a list of cities within a valid state",
      *     @OA\Parameter(
      *         name="state",
