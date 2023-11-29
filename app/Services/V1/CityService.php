@@ -30,4 +30,11 @@ class CityService
 
         return $isStateValid;
     }
+
+    public function getStateList()
+    {
+        $stateList = $this->cityRepository->getStateList();
+
+        return $stateList;
+    }
 }

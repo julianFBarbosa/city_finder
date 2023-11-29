@@ -76,4 +76,15 @@ class CityController extends Controller
 
         return response()->json($paginatedData)->setEncodingOptions(JSON_NUMERIC_CHECK);
     }
+
+    public function states(Request $request) {
+        $response = $this->cityService->getStateList();
+
+
+        if (is_null($response)) {
+            return response()->json(["error" => "Não foi possível buscar a lista de Estados"], 404);
+        }
+
+        return response()->json($response);
+    }
 }

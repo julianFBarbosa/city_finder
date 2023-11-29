@@ -22,6 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get("/v1/cities/{state}", [CityController::class, "index"])
     ->middleware(VerifyApiIntegrity::class);
+// Por limitação de tempo optei por não criar Controller, Resource, Repository e Service pra esse endpoint
+Route::get("/v1/states", [CityController::class, "states"]);
 
 Route::any('{path}', function () {
     return response()->json([

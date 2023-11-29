@@ -32,7 +32,6 @@ class CityRepository implements CityRepositoryInterface
 
         $request = Http::get(env("BRASIL_API_URL") . $state);
 
-
         if ($request->successful()) {
             $response = $this->storeCityListData($request->json(), "BRASIL_API", $state);
             return $response;
