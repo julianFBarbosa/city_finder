@@ -45,15 +45,16 @@ class CityController extends Controller
      *     @OA\Response(response="500", description="internal error")
      * )
      */
-    public function index(Request $request, $state)
+    public function index(Request $request, string $state)
     {
-        $page = $request->get("page");
+        $state = strtoupper($state);
         $isStateValid = $this->cityService->validateState($state);
 
         if (is_null($isStateValid)) {
             return response()->json(["error" => "Estado não encontrado"], 404);
         }
 
+        $page = $request->get("page");
         $cities = $this->cityService->getCityListByState($state);
 
         if (array_key_exists("error", $cities)) {

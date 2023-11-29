@@ -18,13 +18,13 @@ class VerifyApiIntegrity
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $ibgeApi = Http::get(env("BRASIL_UF_API_URL"));
+        $ibgeApi = Http::timeout(5)->get(env("BRASIL_UF_API_URL"));
 
         if ($ibgeApi->successful()) {
             return $next($request);
         }
 
-        $ibgeApi = Http::get(env("IBGE_API_URL"));
+        $ibgeApi = Http::timeout(5)->get(env("IBGE_API_URL"));
 
         if ($ibgeApi->successful()) {
             return $next($request);

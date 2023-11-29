@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Response;
 class CityRepository implements CityRepositoryInterface
 {
     protected $entity;
-    protected $time = 300;
+    protected $time = 20;
 
     public function __construct(City $city)
     {
@@ -32,18 +32,18 @@ class CityRepository implements CityRepositoryInterface
 
         $request = Http::get(env("BRASIL_API_URL") . $state);
 
-        $this->storeCityListData($request->successful(), $request->json(), "BRASIL_API", $state);
+
+        if ($request->successful()) {
+            $response = $this->storeCityListData($request->json(), "BRASIL_API", $state);
+            return $response;
+        }
 
         $request = Http::get(env("IBGE_API_URL") . $state . "/municipios");
 
-        if ($request->successful()) {
-            $data = [
-                "list" => $request->json(),
-                "source" => "BRASIL_API"
-            ];
 
-            Cache::add('cities-' . $state, $data, $this->time);
-            return $data;
+        if ($request->successful()) {
+            $response = $this->storeCityListData($request->json(), "IBGE_API", $state);
+            return $response;
         }
 
         return [
@@ -54,6 +54,7 @@ class CityRepository implements CityRepositoryInterface
     public function getStateList()
     {
         if (Cache::has("states")) {
+            dd("cached");
             return Cache::get("states");
         }
 
@@ -62,6 +63,7 @@ class CityRepository implements CityRepositoryInterface
         if ($request->successful()) {
             return $request->json();
         }
+
         $this->storeStateData($request->successful(), $request->json());
 
         $request = Http::get(env("IBGE_API_URL"));
@@ -81,15 +83,14 @@ class CityRepository implements CityRepositoryInterface
         }
     }
 
-    private function storeCityListData($isSuccessful, $list, $source, $state)
+    private function storeCityListData($list, $source, $state)
     {
-        if ($isSuccessful) {
-            $data = [
-                "list" => $list,
-                "source" => $source
-            ];
-            Cache::add('cities-' . $state, $data, $this->time);
-            return $data;
-        }
+        $data = [
+            "list" => $list,
+            "source" => $source
+        ];
+
+        Cache::add('cities-' . $state, $data, $this->time);
+        return $data;
     }
 }
